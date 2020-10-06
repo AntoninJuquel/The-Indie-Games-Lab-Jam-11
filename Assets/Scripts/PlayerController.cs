@@ -76,5 +76,19 @@ public class PlayerController : MonoBehaviour
             spriteRenderer.transform.rotation = Quaternion.Euler(0, 0, 0);
         //spriteRenderer.flipX = false;
     }
+
+    private void HandleWireInteraction()
+    {
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            Collider2D wire = Physics2D.OverlapCircle(transform.position, interactionRadius, whatIsWire);
+            if (wire)
+            {
+                if (handlingWire == null)
+                    handlingWire = wire.GetComponent<WireController>().GrabWire(transform);
+                else if (wire.GetComponent<WireController>().PlugWire(handlingWire,handlingWire.transform))
+                    handlingWire = null;                    
+            }
+        }
     }
 }
