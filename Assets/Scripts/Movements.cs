@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -18,6 +19,9 @@ public class Movements : MonoBehaviour
     float horizontalDampingWhenTurning = 0.5f;
     //Jump variables
     [SerializeField] float jumpVelocity = 7f;
+    [SerializeField]
+    [Range(0, 1)]
+    float cutJumpHeight = 0.5f;
 
     Rigidbody2D rb;
 
@@ -43,5 +47,13 @@ public class Movements : MonoBehaviour
             horizontalVelocity *= Mathf.Pow(1f - horizontalDampingBasic, Time.deltaTime * 10f);
 
         rb.velocity = new Vector2(horizontalVelocity, rb.velocity.y);
+    }
+
+    internal void CutJump()
+    {
+        if (rb.velocity.y > 0)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * cutJumpHeight);
+        }
     }
 }
