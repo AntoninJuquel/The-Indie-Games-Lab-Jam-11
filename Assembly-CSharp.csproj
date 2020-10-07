@@ -69,7 +69,6 @@
     <Compile Include="Assets\Scripts\Receptor.cs" />
     <Compile Include="Assets\Scripts\Utilities.cs" />
     <Compile Include="Assets\Scripts\WireController.cs" />
-    <Compile Include="Assets\Scripts\WireControllerD.cs" />
     <Reference Include="UnityEngine">
       <HintPath>D:/Logiciels/Unity/2019.4.11f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>
