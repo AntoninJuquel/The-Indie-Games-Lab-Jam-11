@@ -4,81 +4,101 @@ using UnityEngine;
 
 public class WireController : MonoBehaviour
 {
-    public event System.Action OnPlug;
-    public event System.Action OnUnplug;
+    [SerializeField] Color color = new Color();
+    [SerializeField] Rigidbody2D hook = null;
+    [SerializeField] int maxLinks = 5;
 
-    [SerializeField] WireColor color = new WireColor();
+    List<GameObject> segments = new List<GameObject>();
 
+    // First wire
+
+    [SerializeField] GameObject firstSegment = null;
     [SerializeField] Transform handler;
     [SerializeField] Transform pluggedTo;
 
     Collider2D col;
-    LineRenderer lr;
+    HingeJoint2D hj;
+    private void OnValidate()
+    {
+        InitializeColors();
+    }
     private void Awake()
     {
-        col = GetComponent<Collider2D>();
-        lr = GetComponent<LineRenderer>();
+        col = firstSegment.GetComponent<Collider2D>();
+        hj = firstSegment.GetComponent<HingeJoint2D>();
+        segments.Add(firstSegment);
 
-        lr.positionCount = 2;
-        lr.SetPositions(new Vector3[] { transform.position, transform.position });
+        InitializeColors();
     }
     private void Update()
     {
+        if (Vector2.Distance(transform.position, segments[0].transform.position) > segments.Count)
+            if (segments.Count < maxLinks)
+                AddLink();
+            else
+                handler.GetComponent<Rigidbody2D>().velocity += (Vector2)(transform.position - handler.transform.position);
+
         if (handler)
         {
-            lr.SetPosition(1, transform.position);
-            transform.position = handler.position;
+            firstSegment.transform.position = handler.position;
+            MyUtilities.RotateTowardZ(hj.connectedBody.transform.position, firstSegment.transform.position, firstSegment.transform, 100f);
         }
-        else if (pluggedTo)
-            transform.position = pluggedTo.position;
     }
+    void InitializeColors()
+    {
+        foreach (SpriteRenderer sprite in GetComponentsInChildren<SpriteRenderer>())
+        {
+            sprite.color = color;
+        }
+    }
+    void AddLink()
+    {
+        int index = Random.Range(0, GameManager.Instance.ropeSegmentsPrefab.Length);
+        GameObject newSeg = Instantiate(GameManager.Instance.ropeSegmentsPrefab[index]);
+        newSeg.transform.parent = transform;
+        newSeg.transform.position = transform.position;
+        newSeg.GetComponent<SpriteRenderer>().color = color;
+        HingeJoint2D hj = newSeg.GetComponent<HingeJoint2D>();
+        hj.connectedBody = hook;
+        hj.anchor = new Vector2(0, -1);
+        segments[segments.Count - 1].GetComponent<HingeJoint2D>().connectedBody = newSeg.GetComponent<Rigidbody2D>();
+        segments[segments.Count - 1].GetComponent<HingeJoint2D>().anchor = new Vector2(0, -1);
+        segments.Add(newSeg);
+    }
+
     public WireController GrabWire(Transform handler)
     {
-        if (this.handler == null)
-        {
-            if (pluggedTo)
-                pluggedTo.GetComponent<WireController>().UnplugWire(this);
-            
-            this.handler = handler;
-            col.enabled = false;
-            return this;
-        }
+        if (Vector2.Distance(handler.position, firstSegment.transform.position) <= 1.5f)
+            if (this.handler == null)
+            {
+                if (pluggedTo)
+                {
+                    GetComponent<Receptor>().UnplugWire();
+                    pluggedTo = null;
+                }
+
+                firstSegment.GetComponent<Rigidbody2D>().freezeRotation = true;
+
+                this.handler = handler;
+                col.enabled = false;
+                return this;
+            }
         return null;
-    }
-    public bool PlugWire(WireController grabbedWire, Transform pluggedTo)
-    {
-        if (grabbedWire.GetWireColor() == color)
-        {
-            OnPlug();
-            this.pluggedTo = pluggedTo;
-            col.enabled = true;
-            grabbedWire.PlugWire(transform);
-            return true;
-        }
-        return false;
     }
     public void PlugWire(Transform pluggedTo)
     {
-        OnPlug();
-        transform.position = pluggedTo.position;
-        lr.SetPosition(1, transform.position);
         this.pluggedTo = pluggedTo;
         handler = null;
         col.enabled = true;
+        firstSegment.transform.position = pluggedTo.position;
+        firstSegment.GetComponent<Rigidbody2D>().freezeRotation = false;
     }
-    public void UnplugWire(WireController wire)
-    {
-        wire.UnplugWire();
-        OnUnplug();
-        pluggedTo = null;
-    }
-    public void UnplugWire()
-    {
-        OnUnplug();
-        pluggedTo = null;
-    }
-    public WireColor GetWireColor()
+    public Color GetWireColor()
     {
         return color;
+    }
+    public Rigidbody2D GetFirstSegmentRb()
+    {
+        return firstSegment.GetComponent<Rigidbody2D>();
     }
 }

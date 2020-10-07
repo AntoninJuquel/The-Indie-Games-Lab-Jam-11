@@ -6,7 +6,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] float jumpPressedRemember = 0, jumpPressedRememberTime = .2f, groundedRemember = 0f, groundedRememberTime = .2f;
-    [SerializeField] LayerMask whatIsGround = new LayerMask(), whatIsWire = new LayerMask();
+    [SerializeField] LayerMask whatIsGround = new LayerMask(), whatIsInteractable = new LayerMask();
     [SerializeField] float interactionRadius = 1f;
 
     WireController handlingWire;
@@ -81,14 +81,21 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.F))
         {
-            Collider2D wire = Physics2D.OverlapCircle(transform.position, interactionRadius, whatIsWire);
-            if (wire)
+            Collider2D interactable = Physics2D.OverlapCircle(transform.position, interactionRadius, whatIsInteractable);
+
+            if (interactable)
             {
-                if (handlingWire == null)
-                    handlingWire = wire.GetComponent<WireController>().GrabWire(transform);
-                else if (wire.GetComponent<WireController>().PlugWire(handlingWire,handlingWire.transform))
-                    handlingWire = null;                    
+                WireController wire = interactable.GetComponentInParent<WireController>();
+                Receptor receptor = interactable.GetComponentInParent<Receptor>();
+                if (wire && handlingWire == null)
+                    handlingWire = wire.GrabWire(transform);
+                else if (receptor && handlingWire != null)
+                {
+                    if (receptor.PlugWire(handlingWire, transform))
+                        handlingWire = null;
+                }
             }
+
         }
     }
 }

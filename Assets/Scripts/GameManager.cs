@@ -4,15 +4,27 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    int wireCount = 0;
+    public static GameManager Instance;
+    public GameObject[] ropeSegmentsPrefab;
+    int receptorCount = 0;
     int pluggedWire = 0;
     private void Awake()
     {
-        foreach (WireController wire in FindObjectsOfType<WireController>())
+        Instance = this;
+    }
+
+    private void Start()
+    {
+        ScootRopes();
+    }
+
+    void ScootRopes()
+    {
+        foreach (Receptor receptor in FindObjectsOfType<Receptor>())
         {
-            wireCount++;
-            wire.OnPlug += HandleWirePlugged;
-            wire.OnUnplug += HandleWireUnplugged;
+            receptorCount++;
+            receptor.OnPlug += HandleWirePlugged;
+            receptor.OnUnplug += HandleWireUnplugged;
         }
     }
 
