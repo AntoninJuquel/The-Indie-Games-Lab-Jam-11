@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 32372587}
   - component: {fileID: 32372588}
   - component: {fileID: 32372589}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -221,10 +221,13 @@ MonoBehaviour:
   groundedRememberTime: 0.2
   whatIsGround:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 1792
   whatIsInteractable:
     serializedVersion: 2
     m_Bits: 512
+  whatIsPlatform:
+    serializedVersion: 2
+    m_Bits: 1536
   interactionRadius: 1
 --- !u!114 &32372589
 MonoBehaviour:
@@ -1295,6 +1298,11 @@ PrefabInstance:
       propertyPath: color.g
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 647376254915293686, guid: c7fe9824d16948942867a7ccaae90d98,
+        type: 3}
+      propertyPath: maxLinks
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 647376254915293687, guid: c7fe9824d16948942867a7ccaae90d98,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1388,6 +1396,11 @@ PrefabInstance:
     - target: {fileID: 647376256337264392, guid: c7fe9824d16948942867a7ccaae90d98,
         type: 3}
       propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1041679015992534512, guid: c7fe9824d16948942867a7ccaae90d98,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1041679015992534513, guid: c7fe9824d16948942867a7ccaae90d98,

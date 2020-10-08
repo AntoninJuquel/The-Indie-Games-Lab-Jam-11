@@ -79,6 +79,7 @@ GameObject:
   - component: {fileID: 647376255368948277}
   - component: {fileID: 647376255368948276}
   - component: {fileID: 647376255368948282}
+  - component: {fileID: 7105674805313080831}
   m_Layer: 9
   m_Name: Receptor
   m_TagString: Untagged
@@ -205,12 +206,24 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!114 &7105674805313080831
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 647376255368948272}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59424f03762664f4987030d5f08e958c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &647376256337264395
 GameObject:
   m_ObjectHideFlags: 0
@@ -352,6 +365,7 @@ GameObject:
   - component: {fileID: 4218943472060287674}
   - component: {fileID: 3724793334022803580}
   - component: {fileID: 2604419125335754575}
+  - component: {fileID: 46697500664106180}
   m_Layer: 9
   m_Name: First Segment
   m_TagString: Untagged
@@ -478,7 +492,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: -0.5}
@@ -494,3 +508,15 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &46697500664106180
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1041679015992534514}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59424f03762664f4987030d5f08e958c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

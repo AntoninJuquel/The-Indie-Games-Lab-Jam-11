@@ -6,7 +6,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] float jumpPressedRemember = 0, jumpPressedRememberTime = .2f, groundedRemember = 0f, groundedRememberTime = .2f;
-    [SerializeField] LayerMask whatIsGround = new LayerMask(), whatIsInteractable = new LayerMask();
+    [SerializeField] LayerMask whatIsGround = new LayerMask(), whatIsInteractable = new LayerMask(), whatIsPlatform = new LayerMask();
     [SerializeField] float interactionRadius = 1f;
 
     WireController handlingWire;
@@ -28,6 +28,7 @@ public class PlayerController : MonoBehaviour
         CheckJump();
         HandleSpritekOrientation();
         HandleWireInteraction();
+        HandlePlatformInteraction();
     }
     private void FixedUpdate()
     {
@@ -77,7 +78,7 @@ public class PlayerController : MonoBehaviour
         //spriteRenderer.flipX = false;
     }
 
-    private void HandleWireInteraction()
+    void HandleWireInteraction()
     {
         if (Input.GetKeyDown(KeyCode.F))
         {
@@ -95,7 +96,27 @@ public class PlayerController : MonoBehaviour
                         handlingWire = null;
                 }
             }
-
         }
+
+        if (Input.GetKeyDown(KeyCode.G) && handlingWire)
+        {
+            handlingWire.DropWire();
+            handlingWire = null;
+        }
+    }
+    void HandlePlatformInteraction()
+    {
+        if (Input.GetButtonDown("Jump") || Input.GetAxisRaw("Vertical") < 0f)
+        {
+            foreach (Collider2D platform in Physics2D.OverlapCircleAll(transform.position, 2.5f, whatIsPlatform))
+            {
+                StartCoroutine(platform.GetComponent<PlatformController>().LetGo());
+            }
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireSphere(transform.position, 2.5f);
     }
 }

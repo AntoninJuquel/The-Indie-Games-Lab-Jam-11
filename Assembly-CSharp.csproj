@@ -65,10 +65,11 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\Movements.cs" />
+    <Compile Include="Assets\Scripts\PlatformController.cs" />
     <Compile Include="Assets\Scripts\PlayerController.cs" />
-    <Compile Include="Assets\Scripts\Receptor.cs" />
     <Compile Include="Assets\Scripts\Utilities.cs" />
-    <Compile Include="Assets\Scripts\WireController.cs" />
+    <Compile Include="Assets\Scripts\Wire System\Receptor.cs" />
+    <Compile Include="Assets\Scripts\Wire System\WireController.cs" />
     <Reference Include="UnityEngine">
       <HintPath>D:/Logiciels/Unity/2019.4.11f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>
