@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Receptor : MonoBehaviour
 {
@@ -9,6 +10,9 @@ public class Receptor : MonoBehaviour
     HingeJoint2D hj;
     public event System.Action OnPlug;
     public event System.Action OnUnplug;
+
+    public UnityEvent PlugEvent;
+    public UnityEvent UnplugEvent;
     private void Awake()
     {
         col = receptor.GetComponent<Collider2D>();
@@ -19,9 +23,9 @@ public class Receptor : MonoBehaviour
         if (grabbedWire.GetWireColor() == GetComponent<WireController>().GetWireColor() && Vector2.Distance(player.position, receptor.transform.position)<=1.5f)
         {
             hj.connectedBody = grabbedWire.GetFirstSegmentRb();
-            col.enabled = false;
             grabbedWire.PlugWire(receptor.transform);
             OnPlug();
+            PlugEvent.Invoke();
             return true;
         }
         return false;
@@ -29,7 +33,9 @@ public class Receptor : MonoBehaviour
 
     public void UnplugWire()
     {
+        hj.connectedBody = null;
         col.enabled = true;
         OnUnplug();
+        UnplugEvent.Invoke();
     }
 }

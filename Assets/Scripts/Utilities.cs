@@ -9,3 +9,11 @@ public static class MyUtilities
         toRotate.rotation = Quaternion.Slerp(toRotate.rotation, q, Time.deltaTime * speed);
     }
 }
+
+public enum WireType
+{
+    CLIMBABLE,
+    UNCLIMBABLE,
+    BLOCK,
+    DEADLY
+}
