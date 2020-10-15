@@ -39,7 +39,7 @@ public class Movements : MonoBehaviour
         float horizontalVelocity = rb.velocity.x;
         horizontalVelocity += horizontalInputValue * horizontalAcceleration;
 
-        if (Mathf.Abs(Input.GetAxisRaw("Horizontal")) < 0.01f)
+        if (Mathf.Abs(horizontalInputValue) < 0.01f)
             horizontalVelocity *= Mathf.Pow(1f - horizontalDampingWhenStopping, Time.deltaTime * 10f);
         else if (Mathf.Sign(horizontalInputValue) != Mathf.Sign(horizontalVelocity))
             horizontalVelocity *= Mathf.Pow(1f - horizontalDampingWhenTurning, Time.deltaTime * 10f);
